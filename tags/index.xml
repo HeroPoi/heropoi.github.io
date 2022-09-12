@@ -5,6 +5,16 @@
     <link>http://HeroPoi.github.io/tags/</link>
     <description>Recent content in Tags on Site of Hiropoi</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="http://HeroPoi.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Mon, 12 Sep 2022 09:31:25 +0800</lastBuildDate><atom:link href="http://HeroPoi.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Markdown</title>
+      <link>http://HeroPoi.github.io/tags/markdown/</link>
+      <pubDate>Mon, 12 Sep 2022 09:31:25 +0800</pubDate>
+      
+      <guid>http://HeroPoi.github.io/tags/markdown/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
