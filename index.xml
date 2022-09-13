@@ -5,16 +5,6 @@
     <link>http://HeroPoi.github.io/</link>
     <description>Recent content on Site of Hiropoi</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Mon, 12 Sep 2022 09:31:25 +0800</lastBuildDate><atom:link href="http://HeroPoi.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Hello World</title>
-      <link>http://HeroPoi.github.io/posts/hello/</link>
-      <pubDate>Mon, 12 Sep 2022 09:31:25 +0800</pubDate>
-      
-      <guid>http://HeroPoi.github.io/posts/hello/</guid>
-      <description> Fuck wjm Link to heading </description>
-    </item>
-    
+    <language>en</language><atom:link href="http://HeroPoi.github.io/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
