@@ -32,7 +32,8 @@ loongarch64) test -z &amp;#34;[$]2&amp;#34; || eval &amp;#34;[$]2=ArchUnknown&am
       <pubDate>Sun, 10 Jul 2022 09:31:25 +0800</pubDate>
       
       <guid>https://heropoi.github.io/posts/hello-copy/</guid>
-      <description> Fuck wjm Link to heading </description>
+      <description>大家好，这里是Hiropoi，一名来自中国某知名轨道交通相关学校的普通大学生。
+欢迎来到我的博客。</description>
     </item>
     
   </channel>
