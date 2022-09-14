@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+  DLLL队GHC移植记录 · Site of Hiropoi
+</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Hiropoi">
+<meta name="description" content="编译环节 Link to heading 04/23 Link to heading 记录1 Link to heading ​	龙芯环境在Autoconf中的标识为
+​	loongarch64-unknown-linux-gnu
+记录2 Link to heading ​	更新源码目录下的config.guess 和 config.sub 文件
+sudo wget -O /usr/share/misc/config.sub &#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD&#34; sudo wget -O /usr/share/misc/config.guess &#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD&#34; libtoolize -f -i -c 问题1 Link to heading ​	修改如果直接使用configure命令报错：
+​	Unknown cpu loongarch64
+​	则需要在ghc/m4/ghc_convert_cpu.m4中加入
+loongarch64*) $2=&#34;loongarch64&#34; ;; ​	再执行./boot
+问题2 Link to heading ​	未知架构报错：
+​	Unknown arch loongarch64
+​	在fptools_set_haskell_platform_vars.m4下加入
+loongarch64) test -z &#34;[$]2&#34; || eval &#34;[$]2=ArchUnknown&#34; ;; ​	再执行.">
+<meta name="keywords" content="blog,developer,personal">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DLLL队GHC移植记录"/>
+<meta name="twitter:description" content="编译环节 Link to heading 04/23 Link to heading 记录1 Link to heading ​	龙芯环境在Autoconf中的标识为
+​	loongarch64-unknown-linux-gnu
+记录2 Link to heading ​	更新源码目录下的config.guess 和 config.sub 文件
+sudo wget -O /usr/share/misc/config.sub &#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD&#34; sudo wget -O /usr/share/misc/config.guess &#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD&#34; libtoolize -f -i -c 问题1 Link to heading ​	修改如果直接使用configure命令报错：
+​	Unknown cpu loongarch64
+​	则需要在ghc/m4/ghc_convert_cpu.m4中加入
+loongarch64*) $2=&#34;loongarch64&#34; ;; ​	再执行./boot
+问题2 Link to heading ​	未知架构报错：
+​	Unknown arch loongarch64
+​	在fptools_set_haskell_platform_vars.m4下加入
+loongarch64) test -z &#34;[$]2&#34; || eval &#34;[$]2=ArchUnknown&#34; ;; ​	再执行."/>
+
+<meta property="og:title" content="DLLL队GHC移植记录" />
+<meta property="og:description" content="编译环节 Link to heading 04/23 Link to heading 记录1 Link to heading ​	龙芯环境在Autoconf中的标识为
+​	loongarch64-unknown-linux-gnu
+记录2 Link to heading ​	更新源码目录下的config.guess 和 config.sub 文件
+sudo wget -O /usr/share/misc/config.sub &#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD&#34; sudo wget -O /usr/share/misc/config.guess &#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD&#34; libtoolize -f -i -c 问题1 Link to heading ​	修改如果直接使用configure命令报错：
+​	Unknown cpu loongarch64
+​	则需要在ghc/m4/ghc_convert_cpu.m4中加入
+loongarch64*) $2=&#34;loongarch64&#34; ;; ​	再执行./boot
+问题2 Link to heading ​	未知架构报错：
+​	Unknown arch loongarch64
+​	在fptools_set_haskell_platform_vars.m4下加入
+loongarch64) test -z &#34;[$]2&#34; || eval &#34;[$]2=ArchUnknown&#34; ;; ​	再执行." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://heropoi.github.io/posts/helloc/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-12T09:31:25+08:00" />
+<meta property="article:modified_time" content="2022-08-12T09:31:25+08:00" />
+
+
+
+
+
+<link rel="canonical" href="https://heropoi.github.io/posts/helloc/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.c4d7e93a158eda5a65b3df343745d2092a0a1e2170feeec909b8a89443903c6a.css" integrity="sha256-xNfpOhWO2lpls980N0XSCSoKHiFw/u7JCbiolEOQPGo=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.57614d55078a7443fe8eac485af76751e736fe2cf214743f363ff317e4b0026e.css" integrity="sha256-V2FNVQeKdEP&#43;jqxIWvdnUec2/izyFHQ/Nj/zF&#43;SwAm4=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<meta name="generator" content="Hugo 0.102.3" />
+
+
+
+
+
+  </head>
+
+
+
+
+
+
+<style>
+  .colorscheme-light{
+    background-image: url(/images/dayc.jpg);
+    background-attachment: fixed;
+  }
+  .colorscheme-dark{
+    background-image: url(/images/nights.jpg);
+    background-attachment: fixed;
+  }
+  .colorscheme-dark>h{
+    color: black;
+  }
+</style>
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Site of Hiropoi
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">📕个人文章</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/friend/">友情链接</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <style>
+      h{
+        color: black;
+      }
+      .zoomImage{
+        width:100%;
+        height:0;
+        padding-bottom: 25%;
+        overflow:hidden;
+        background-position: center center;
+        background-repeat: no-repeat;
+        -webkit-background-size:cover;
+        -moz-background-size:cover;
+        border-radius:5px;
+        background-size:cover;
+    }
+  </style>
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://heropoi.github.io/posts/helloc/">
+              DLLL队GHC移植记录
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2022-08-12T09:31:25&#43;08:00">
+                August 12, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/markdown/">Markdown</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div style="width:100%;background-color:white;background: rgba(255,255,255,0.5);border-radius:5px">
+        
+        <div class="zoomImage" style="background-image:url(/images/DLLL%e9%98%9fGHC%e7%a7%bb%e6%a4%8d%e8%ae%b0%e5%bd%95.jpg)"></div>
+        <div style="padding: 5%;color:black">
+          <h3 id="编译环节">
+  编译环节
+  <a class="heading-link" href="#%e7%bc%96%e8%af%91%e7%8e%af%e8%8a%82">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="0423">
+  04/23
+  <a class="heading-link" href="#0423">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="记录1">
+  记录1
+  <a class="heading-link" href="#%e8%ae%b0%e5%bd%951">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	龙芯环境在Autoconf中的标识为</p>
+<p>​	<code>loongarch64-unknown-linux-gnu</code></p>
+<h5 id="记录2">
+  记录2
+  <a class="heading-link" href="#%e8%ae%b0%e5%bd%952">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	更新源码目录下的<strong>config.guess</strong> 和 <strong>config.sub</strong> 文件</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo wget -O /usr/share/misc/config.sub <span style="font-style:italic">&#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo wget -O /usr/share/misc/config.guess <span style="font-style:italic">&#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>libtoolize -f -i -c
+</span></span></code></pre></div><h5 id="问题1">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	修改如果直接使用configure命令报错：</p>
+<p>​	<code>Unknown cpu loongarch64</code></p>
+<p>​	则需要在<strong>ghc/m4/ghc_convert_cpu.m4</strong>中加入</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>loongarch64*)
+</span></span><span style="display:flex;"><span>	$2=&#34;loongarch64&#34;
+</span></span><span style="display:flex;"><span>	;;
+</span></span></code></pre></div><p>​	再执行./boot</p>
+<h5 id="问题2">
+  问题2
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%982">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	未知架构报错：</p>
+<p>​	<code>Unknown arch loongarch64</code></p>
+<p>​	在<strong>fptools_set_haskell_platform_vars.m4</strong>下加入</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>loongarch64)
+</span></span><span style="display:flex;"><span>     test -z &#34;[$]2&#34; || eval &#34;[$]2=ArchUnknown&#34;
+</span></span><span style="display:flex;"><span>     ;;
+</span></span></code></pre></div><p>​	再执行./boot</p>
+<h5 id="问题3">
+  问题3
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%983">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	libffi 尚未移植到龙芯架构上</p>
+<p>​	<em><strong>libffi has not been ported to loongarch64-unknown-linux-gnu.</strong></em></p>
+<h6 id="尝试1">
+  尝试1
+  <a class="heading-link" href="#%e5%b0%9d%e8%af%951">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	从<a href="https://github.com/loongson/libffi">Github龙芯</a>获取到支持龙芯的libffi版本</p>
+<p>​	找到ghc源码中：<strong>libffi-3.3+git20200501+4f9e20a.tar.gz</strong></p>
+<p>​	将下载的源码压缩，替换到源代码中</p>
+<p>​	P.S.：请使用tar -czvf命令压缩</p>
+<h6 id="引发错误">
+  引发错误
+  <a class="heading-link" href="#%e5%bc%95%e5%8f%91%e9%94%99%e8%af%af">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	libffi设置为为龙芯目标进行编译但此编译器似乎不是龙芯编译器</p>
+<p>​	<em><strong>libffi was configured for a LoongArch target but this does not appear to be a LoongArch compiler</strong></em></p>
+<h4 id="0427">
+  04/27
+  <a class="heading-link" href="#0427">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="环境变量设置">
+  环境变量设置
+  <a class="heading-link" href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e8%ae%be%e7%bd%ae">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>export SYSDIR=&#34;/home/hiropoi/Desktop/GHCtime/looc&#34;
+</span></span><span style="display:flex;"><span>export BUILDDIR=&#34;${SYSDIR}/builds&#34;
+</span></span><span style="display:flex;"><span>export DOWNLOADDIR=&#34;${SYSDIR}/downloads&#34;
+</span></span><span style="display:flex;"><span>export LC_ALL=POSIX
+</span></span><span style="display:flex;"><span>export CROSS_HOST=&#34;$(echo $MACHTYPE | sed &#34;s/$(echo $MACHTYPE | cut -d- -f2)/unknown/&#34;)&#34;
+</span></span><span style="display:flex;"><span>export CROSS_TARGET=&#34;loongarch64-linux-gnu&#34;
+</span></span><span style="display:flex;"><span>export MABI=&#34;lp64d&#34;
+</span></span><span style="display:flex;"><span>export BUILD64=&#34;-mabi=lp64d&#34;
+</span></span><span style="display:flex;"><span>export PATH=${SYSDIR}/cross-tools/bin:/bin:/usr/bin
+</span></span><span style="display:flex;"><span>unset CFLAGS
+</span></span><span style="display:flex;"><span>unset CXXFLAGS
+</span></span></code></pre></div><h5 id="解决ghc810工具链不生效问题">
+  解决GHC8.10工具链不生效问题
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3ghc810%e5%b7%a5%e5%85%b7%e9%93%be%e4%b8%8d%e7%94%9f%e6%95%88%e9%97%ae%e9%a2%98">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>source ~/.ghcup/env
+</span></span></code></pre></div><h5 id="configure时指定交叉编译器">
+  ./configure时指定交叉编译器
+  <a class="heading-link" href="#configure%e6%97%b6%e6%8c%87%e5%ae%9a%e4%ba%a4%e5%8f%89%e7%bc%96%e8%af%91%e5%99%a8">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./configure --target=<span style="font-weight:bold;font-style:italic">${</span>CROSS_TARGET<span style="font-weight:bold;font-style:italic">}</span> CC=<span style="font-weight:bold;font-style:italic">${</span>CROSS_TARGET<span style="font-weight:bold;font-style:italic">}</span>-gcc LD=<span style="font-weight:bold;font-style:italic">${</span>CROSS_TARGET<span style="font-weight:bold;font-style:italic">}</span>-ld NM=<span style="font-weight:bold;font-style:italic">${</span>CROSS_TARGET<span style="font-weight:bold;font-style:italic">}</span>-nm --with-objdump=<span style="font-weight:bold;font-style:italic">${</span>CROSS_TARGET<span style="font-weight:bold;font-style:italic">}</span>-objdump
+</span></span></code></pre></div><h4 id="0501">
+  05/01
+  <a class="heading-link" href="#0501">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="问题1-1">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	libffi设置为为龙芯目标进行编译但此编译器似乎不是龙芯编译器</p>
+<p>​	<em><strong>libffi was configured for a LoongArch target but this does not appear to be a LoongArch compiler</strong></em></p>
+<p>​	**问题原因代码 **</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="">#ifndef __loongarch__
+</span></span></span><span style="display:flex;"><span><span style="">#error \
+</span></span></span><span style="display:flex;"><span><span style="">  &#34;libffi was configured for a LoongArch target but this does not appear to be a LoongArch compiler.&#34;
+</span></span></span><span style="display:flex;"><span><span style="">#endif
+</span></span></span></code></pre></div><h6 id="尝试1-1">
+  尝试1
+  <a class="heading-link" href="#%e5%b0%9d%e8%af%951-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	将此段代码修改为</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="">#ifndef __loongarch__
+</span></span></span><span style="display:flex;"><span><span style="">#define __loongarch__
+</span></span></span><span style="display:flex;"><span><span style="">#endif
+</span></span></span></code></pre></div><h5 id="问题2-可能由1引发">
+  问题2 （可能由1引发）
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%982-%e5%8f%af%e8%83%bd%e7%94%b11%e5%bc%95%e5%8f%91">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>../src/loongarch/ffi.c:59:3: error: unknown type name ‘ABI_FLOAT’
+</span></span><span style="display:flex;"><span>   59 |   ABI_FLOAT fa[8];
+</span></span><span style="display:flex;"><span>      |   ^~~~~~~~~
+</span></span><span style="display:flex;"><span>../src/loongarch/ffi.c:574:1: fatal error: opening dependency file src/loongarch/.deps/ffi.Tpo: No such file or directory
+</span></span><span style="display:flex;"><span>  574 | }
+</span></span><span style="display:flex;"><span>      | ^
+</span></span><span style="display:flex;"><span>compilation terminated.
+</span></span></code></pre></div><h6 id="尝试1-2">
+  尝试1
+  <a class="heading-link" href="#%e5%b0%9d%e8%af%951-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	针对于第一条问题，在ffi.c第42行添加如下代码</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style=""># define ABI_FLOAT double
+</span></span></span></code></pre></div><p>​	至少第一条问题不再报错</p>
+<h4 id="0503">
+  05/03
+  <a class="heading-link" href="#0503">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="修正1">
+  修正1
+  <a class="heading-link" href="#%e4%bf%ae%e6%ad%a31">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	指定交叉编译工具目录</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>/home/hiropoi/Desktop/GHCtime/CrossCP/cross-tools/bin/loongarch64-unknown-linux-gnu-&lt;工具名&gt;
+</span></span></code></pre></div><p>​	实际configure命令</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>./configure --target=loongarch64-unknown-linux-gnu \
+</span></span><span style="display:flex;"><span> CC=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-gcc \
+</span></span><span style="display:flex;"><span> LD=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-ld \
+</span></span><span style="display:flex;"><span> NM=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-nm \
+</span></span><span style="display:flex;"><span> OBJDUMP=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-objdump \
+</span></span><span style="display:flex;"><span> RANLIB=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-ranlib \
+</span></span><span style="display:flex;"><span> AR=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-ar
+</span></span></code></pre></div><h5 id="错误1">
+  错误1
+  <a class="heading-link" href="#%e9%94%99%e8%af%af1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	交叉编译时无法运行测试程序</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>checking whether posix_spawn reports errors sensibly... configure: error: in `/home/hiropoi/Desktop/GHCtime/GHCv1.0/libraries/process/dist-install/build&#39;:
+</span></span><span style="display:flex;"><span>configure: error: cannot run test program while cross compiling
+</span></span></code></pre></div><h6 id="解决方案">
+  解决方案
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	找到./configure中涉及到测试程序的部分（16584行），将之删除：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  if test &#34;$cross_compiling&#34; = yes; then :
+</span></span><span style="display:flex;"><span>  { { $as_echo &#34;$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd&#39;:&#34; &gt;&amp;5
+</span></span><span style="display:flex;"><span>$as_echo &#34;$as_me: error: in \`$ac_pwd&#39;:&#34; &gt;&amp;2;}
+</span></span><span style="display:flex;"><span>as_fn_error $? &#34;cannot run test program while cross compiling
+</span></span><span style="display:flex;"><span>See \`config.log&#39; for more details&#34; &#34;$LINENO&#34; 5; }
+</span></span><span style="display:flex;"><span>else
+</span></span><span style="display:flex;"><span>  cat confdefs.h - &lt;&lt;_ACEOF &gt;conftest.$ac_ext
+</span></span><span style="display:flex;"><span>/* end confdefs.h.  */
+</span></span></code></pre></div><h4 id="0506">
+  05/06
+  <a class="heading-link" href="#0506">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="问题1-2">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	necurses库（terminfo）缺失。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>checking Tor setupterm 1h - Lhcun ses . . . ho
+</span></span><span style="display:flex;"><span>checking <span style="font-weight:bold">for</span> setupterm in -Lcurses. . . no
+</span></span><span style="display:flex;"><span>configure: error: in、/home/hiropoi/Desktop/ GHCtime/GHCv1.0/Libraries/ terminfo/dist- install/build:
+</span></span><span style="display:flex;"><span>configure: error: curses Library not found, SO this package cannot be built
+</span></span><span style="display:flex;"><span>See config.log <span style="font-weight:bold">for</span> more details
+</span></span><span style="display:flex;"><span>make[1]: *** [Libraries/ terminfo/ghc. mk:5: libraries/terminfo/dist- install/package-data. mk] Error 1
+</span></span><span style="display:flex;"><span>| make :
+</span></span><span style="display:flex;"><span>**
+</span></span><span style="display:flex;"><span>[Makefile:126: all] Error 2
+</span></span><span style="display:flex;"><span>hiropoi@ubuntu:~/Desktop/GHCtime/GHCv1.0$
+</span></span></code></pre></div><h6 id="尝试1-3">
+  尝试1
+  <a class="heading-link" href="#%e5%b0%9d%e8%af%951-3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	编译时添加sysroot目录引导</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>./configure --target=loongarch64-unknown-linux-gnu \
+</span></span><span style="display:flex;"><span> CC=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-gcc \
+</span></span><span style="display:flex;"><span> LD=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-ld \
+</span></span><span style="display:flex;"><span> NM=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-nm \
+</span></span><span style="display:flex;"><span> OBJDUMP=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-objdump \
+</span></span><span style="display:flex;"><span> RANLIB=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-ranlib \
+</span></span><span style="display:flex;"><span> AR=/home/hiropoi/Desktop/GHCtime/toolchain-loongarch64-linux-gnu-cross-830-rc1.0-2022-04-22/bin/loongarch64-linux-gnu-ar \
+</span></span><span style="display:flex;"><span> --with-sysroot=/home/hiropoi/Desktop/CrossCP/sysroot
+</span></span></code></pre></div><h6 id="结果1">
+  结果1
+  <a class="heading-link" href="#%e7%bb%93%e6%9e%9c1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	错误仍未解决</p>
+<h4 id="0507">
+  05/07
+  <a class="heading-link" href="#0507">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="问题1-3">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	移植VScode时，node.js的版本不匹配</p>
+<h6 id="解决方案1">
+  解决方案1
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%881">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	龙芯库内的最高版本为14.16.1-1，所以再获取vc源的时候要获取较旧的版本</p>
+<h4 id="0509">
+  05/09
+  <a class="heading-link" href="#0509">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="6日问题1解决方案">
+  6日问题1解决方案
+  <a class="heading-link" href="#6%e6%97%a5%e9%97%ae%e9%a2%981%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="解决方案1-1">
+  解决方案1
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%881-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	跳过terminfo编译。请于build.mk下添加如下条目</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>WITH_TERMINFO=NO
+</span></span></code></pre></div><h6 id="解决方案2">
+  解决方案2
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%882">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	添加necurses库，需要 Loongarch ncures.so， term.h错误需要term.h ncurse.h相关头文件，这个主要是需要分别放到交叉工具链/loongarch64-linux-gnu/lib64 和include目录下。</p>
+<h4 id="0513">
+  05/13
+  <a class="heading-link" href="#0513">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="问题1-4">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-4">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	libffi的编译缺少decomp</p>
+<h6 id="尝试">
+  尝试
+  <a class="heading-link" href="#%e5%b0%9d%e8%af%95">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	尚未找到相应的解决方案，决定编译自己的libffi进行尝试</p>
+<h5 id="问题2-1">
+  问题2
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%982-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	编译好的VScode的没有插件功能</p>
+<h4 id="0515">
+  05/15
+  <a class="heading-link" href="#0515">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="13日问题1">
+  13日问题1
+  <a class="heading-link" href="#13%e6%97%a5%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="解决方案1-2">
+  解决方案1
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%881-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	自行编译的libffi中存在decomp文件，将其放入GHC中libffi的根目录下</p>
+<h5 id="问题1-5">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-5">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	缺少ffi.Tpo文件</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>/bin/sh ./libtool  --tag=CC   --mode=compile loongarch64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -O3 -fomit-frame-pointer -fstrict-aliasing -ffast-math -Wall -fexceptions -MT src/loongarch/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/loongarch/ffi.lo ../src/loongarch/ffi.c &amp;&amp;\
+</span></span><span style="display:flex;"><span>mv -f $depbase.Tpo $depbase.Plo
+</span></span><span style="display:flex;"><span>libtool: compile:  loongarch64-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -O3 -fomit-frame-pointer -fstrict-aliasing -ffast-math -Wall -fexceptions -MT src/loongarch/ffi.lo -MD -MP -MF src/loongarch/.deps/ffi.Tpo -c ../src/loongarch/ffi.c  -fPIC -DPIC -o src/loongarch/.libs/ffi.o
+</span></span><span style="display:flex;"><span>../src/loongarch/ffi.c:574:1: fatal error: opening dependency file src/loongarch/.deps/ffi.Tpo: No such file or dirctory
+</span></span></code></pre></div><h4 id="0519">
+  05/19
+  <a class="heading-link" href="#0519">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="15日问题1">
+  15日问题1
+  <a class="heading-link" href="#15%e6%97%a5%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="原因判明">
+  原因判明
+  <a class="heading-link" href="#%e5%8e%9f%e5%9b%a0%e5%88%a4%e6%98%8e">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	loongarch移植套件下的libffi不适配GHC中的ffi编译逻辑，导致其不会编译.deps目录</p>
+<h6 id="解决方案-1">
+  解决方案
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	前往libffi/build/loongarch64-unknown-linux-gnu/src/下，选择一个非loongarch 的文件夹将其中的.deps复制到loongarch文件夹下</p>
+<h5 id="问题1-6">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-6">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	本地符号缺失</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>/home/loongson/loongarch64-linux-gnu-2022-01-26-vector/bin/../lib/gcc/loongarch64-linux-gnu/8.3.0/../../../../loongarch64-linux-gnu/bin/ld: /home/loongson/ghcv1.0/rts/dist-install/build/libffi.so: undefined reference to `ffi_tramp_get_addr&#39;
+</span></span><span style="display:flex;"><span>/home/loongson/loongarch64-linux-gnu-2022-01-26-vector/bin/../lib/gcc/loongarch64-linux-gnu/8.3.0/../../../../loongarch64-linux-gnu/bin/ld: /home/loongson/ghcv1.0/rts/dist-install/build/libffi.so: undefined reference to `ffi_tramp_is_supported&#39;
+</span></span><span style="display:flex;"><span>/home/loongson/loongarch64-linux-gnu-2022-01-26-vector/bin/../lib/gcc/loongarch64-linux-gnu/8.3.0/../../../../loongarch64-linux-gnu/bin/ld: /home/loongson/ghcv1.0/rts/dist-install/build/libffi.so: undefined reference to `ffi_tramp_free&#39;
+</span></span><span style="display:flex;"><span>/home/loongson/loongarch64-linux-gnu-2022-01-26-vector/bin/../lib/gcc/loongarch64-linux-gnu/8.3.0/../../../../loongarch64-linux-gnu/bin/ld: /home/loongson/ghcv1.0/rts/dist-install/build/libffi.so: undefined reference to `ffi_tramp_alloc&#39;
+</span></span><span style="display:flex;"><span>collect2: error: ld returned 1 exit status
+</span></span><span style="display:flex;"><span>`loongarch64-linux-gnu-gcc&#39; failed in phase `Linker&#39;. (Exit code: 1)
+</span></span><span style="display:flex;"><span>make[1]: *** [utils/hsc2hs/ghc.mk:22：utils/hsc2hs/dist-install/build/tmp/hsc2hs] Error 1
+</span></span></code></pre></div><h4 id="0523">
+  05/23
+  <a class="heading-link" href="#0523">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="19日问题1">
+  19日问题1
+  <a class="heading-link" href="#19%e6%97%a5%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="原因判明-1">
+  原因判明
+  <a class="heading-link" href="#%e5%8e%9f%e5%9b%a0%e5%88%a4%e6%98%8e-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	我们将编译环境自ubuntu20.0.4切换至fedora34，引发了本地符号相关问题</p>
+<h6 id="问题解决">
+  问题解决
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%98%e8%a7%a3%e5%86%b3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	导入相应的本地符号即可</p>
+<h5 id="成果总结">
+  成果总结
+  <a class="heading-link" href="#%e6%88%90%e6%9e%9c%e6%80%bb%e7%bb%93">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	在GHC 8.10.6/GCC 12.0/binutils 2.37/glibc2.35编译链引导下编译成功</p>
+<h3 id="实机测试">
+  实机测试
+  <a class="heading-link" href="#%e5%ae%9e%e6%9c%ba%e6%b5%8b%e8%af%95">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="0524">
+  05/24
+  <a class="heading-link" href="#0524">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="问题1-7">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-7">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	测试机提供的glibc版本过低（2.28）</p>
+<h6 id="解决思路1">
+  解决思路1
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%80%9d%e8%b7%af1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	替换目标机gilbc</p>
+<h5 id="问题2-2">
+  问题2
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%982-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	目标机Linux内核版本过低不足以支持glibc编译</p>
+<h6 id="解决方案1-3">
+  解决方案1
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%881-3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	采取交叉编译方式，通过对应工具链进行编译</p>
+<h6 id="引发问题">
+  引发问题
+  <a class="heading-link" href="#%e5%bc%95%e5%8f%91%e9%97%ae%e9%a2%98">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	编译的glibc接入目标机引发崩溃</p>
+<h6 id="原因分析">
+  原因分析
+  <a class="heading-link" href="#%e5%8e%9f%e5%9b%a0%e5%88%86%e6%9e%90">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	目标机的其他命令依赖glibc2.28运行，但glibc并不向下兼容、</p>
+<p>​	等待龙芯官方恢复测试机</p>
+<h4 id="0527">
+  05/27
+  <a class="heading-link" href="#0527">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="记录1-1">
+  记录1
+  <a class="heading-link" href="#%e8%ae%b0%e5%bd%951-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	采用其他对应目标机环境的工具链重新编译GHC，同时等待目标机恢复</p>
+<h5 id="问题1-8">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-8">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	使用GCC 8.3/Binunits 2.31/Glibc 2.28交叉工具链进行编译时由于一个极长命令，出现ELF Relocation虚拟内存越界问题</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Warning: -rtsopts and -with-rtsopts have no effect with -shared.
+</span></span><span style="display:flex;"><span>    Call hs_init_ghc() from your main() function to set these options.
+</span></span><span style="display:flex;"><span>Dump relocate record:
+</span></span><span style="display:flex;"><span>stack top		relocation name		symbol
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf4b8):
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_POP_32_S_5_20	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf4bc):
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 4(0x4)
+</span></span><span style="display:flex;"><span>0x00000000047b1848 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481cd40 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2052(0x804)
+</span></span><span style="display:flex;"><span>0x00000000047b2048 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d540 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SL	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d000 R_LARCH_SOP_SUB	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0xfffffffffffffd40 R_LARCH_SOP_POP_32_S_10_12	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf530):
+</span></span><span style="display:flex;"><span>0x000000000004b470 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2048(0x800)
+</span></span><span style="display:flex;"><span>0x00000000047b1fd0 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d4c8 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_POP_32_S_5_20	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf534):
+</span></span><span style="display:flex;"><span>0x000000000004b470 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 4(0x4)
+</span></span><span style="display:flex;"><span>0x00000000047b17d0 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481ccc8 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2052(0x804)
+</span></span><span style="display:flex;"><span>0x00000000047b1fd0 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d4c8 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SL	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d000 R_LARCH_SOP_SUB	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0xfffffffffffffcc8 R_LARCH_SOP_POP_32_S_10_12	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf544):
+</span></span><span style="display:flex;"><span>0x0000000000072eb0 R_LARCH_SOP_PUSH_PCREL	`.L12063&#39;
+</span></span><span style="display:flex;"><span>0x0000000000000014 R_LARCH_SOP_POP_32_S_10_16_S2	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf548):
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2048(0x800)
+</span></span><span style="display:flex;"><span>0x00000000047b1fb8 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d4b0 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_POP_32_S_5_20	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf54c):
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 4(0x4)
+</span></span><span style="display:flex;"><span>0x00000000047b17b8 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481ccb0 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2052(0x804)
+</span></span><span style="display:flex;"><span>0x00000000047b1fb8 R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d4b0 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SL	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d000 R_LARCH_SOP_SUB	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0xfffffffffffffcb0 R_LARCH_SOP_POP_32_S_10_12	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf564):
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2048(0x800)
+</span></span><span style="display:flex;"><span>0x00000000047b1f9c R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d494 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_POP_32_S_5_20	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf568):
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 4(0x4)
+</span></span><span style="display:flex;"><span>0x00000000047b179c R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481cc94 R_LARCH_SOP_PUSH_PCREL	`_GLOBAL_OFFSET_TABLE_&#39; + 2052(0x804)
+</span></span><span style="display:flex;"><span>0x00000000047b1f9c R_LARCH_SOP_PUSH_GPREL	`MainCapability&#39;
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_ADD	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d494 R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SR	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000000481d R_LARCH_SOP_PUSH_ABSOLUTE	`&lt;nameless&gt;&#39; + 12(0xc)
+</span></span><span style="display:flex;"><span>0x000000000000000c R_LARCH_SOP_SL	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0x000000000481d000 R_LARCH_SOP_SUB	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>0xfffffffffffffc94 R_LARCH_SOP_POP_32_S_10_12	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>at compiler/stage2/build/GHC/Rename/Expr.dyn_o(.text+0xcf578):
+</span></span><span style="display:flex;"><span>0x000000000006b4f8 R_LARCH_SOP_PUSH_PLT_PCREL	`newCAF&#39;
+</span></span><span style="display:flex;"><span>0xfffffffff7f357e8 R_LARCH_SOP_POP_32_S_0_10_10_16_S2	`&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/home/hiropoi/Desktop/GHCtime/CrossCPS/cross-tools/bin/ld: compiler/stage2/build/GHC/Rename/Expr.dyn_o: in function `.L12063&#39;:
+</span></span><span style="display:flex;"><span>(.text+0xcf578): relocation truncated to fit: R_LARCH_SOP_POP_32_S_0_10_10_16_S2 against `&lt;nameless&gt;&#39;
+</span></span><span style="display:flex;"><span>/home/hiropoi/Desktop/GHCtime/CrossCPS/cross-tools/bin/ld: final link failed: symbol needs debug section which does not exist
+</span></span><span style="display:flex;"><span>collect2: error: ld returned 1 exit status
+</span></span><span style="display:flex;"><span>-- Record dump end --
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>`gcc&#39; failed in phase `Linker&#39;. (Exit code: 1)
+</span></span><span style="display:flex;"><span>&lt;&lt;ghc: 34822200 bytes, 15 GCs, 2052290/2822360 avg/max bytes residency (6 samples), 26M in use, 0.001 INIT (0.001 elapsed), 0.058 MUT (10.865 elapsed), 0.079 GC (0.080 elapsed) :ghc&gt;&gt;
+</span></span><span style="display:flex;"><span>make[1]: *** [compiler/ghc.mk:242: compiler/stage2/build/libHSghc-9.5-ghc9.5.20220430.so] Error 1
+</span></span><span style="display:flex;"><span>make: *** [Makefile:128: all] Error 2
+</span></span></code></pre></div><h4 id="0604">
+  06/04
+  <a class="heading-link" href="#0604">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="5月27日问题1">
+  5月27日问题1
+  <a class="heading-link" href="#5%e6%9c%8827%e6%97%a5%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="原因判明-2">
+  原因判明
+  <a class="heading-link" href="#%e5%8e%9f%e5%9b%a0%e5%88%a4%e6%98%8e-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	龙芯社区提供的GCC8.3未经调优，只能编译虚拟内存在2G以下的程序</p>
+<h6 id="解决方案1-4">
+  解决方案1
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%881-4">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	重新编译gcc12</p>
+<h5 id="问题1-9">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-9">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	编译gcc12时遇到isl版本不匹配的问题</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>checking for loongarch64-linux-gnu-gcc... /home/hiropoi/Desktop/GHCtime/looc/build/gcc-12.0.0/build-all/./gcc/xgcc -B/home/hiropoi/Desktop/GHCtime/looc/build/gcc-12.0.0/build-all/./gcc/ -B/home/hiropoi/Desktop/GHCtime/looc//cross-tools/loongarch64-linux-gnu/bin/ -B/home/hiropoi/Desktop/GHCtime/looc//cross-tools/loongarch64-linux-gnu/lib/ -isystem /home/hiropoi/Desktop/GHCtime/looc//cross-tools/loongarch64-linux-gnu/include -isystem /home/hiropoi/Desktop/GHCtime/looc//cross-tools/loongarch64-linux-gnu/sys-include   
+</span></span><span style="display:flex;"><span>checking for suffix of object files... configure: error: in `/home/hiropoi/Desktop/GHCtime/looc/build/gcc-12.0.0/build-all/loongarch64-linux-gnu/libgcc&#39;:
+</span></span><span style="display:flex;"><span>configure: error: cannot compute suffix of object files: cannot compile
+</span></span><span style="display:flex;"><span>See `config.log&#39; for more details
+</span></span><span style="display:flex;"><span>make[1]: *** [Makefile:13585: configure-target-libgcc] Error 1
+</span></span><span style="display:flex;"><span>make[1]: Leaving directory &#39;/home/hiropoi/Desktop/GHCtime/looc/build/gcc-12.0.0/build-all&#39;
+</span></span><span style="display:flex;"><span>make: *** [Makefile:982: all] Error 2
+</span></span><span style="display:flex;"><span>hiropoi@ubuntu:~/Desktop/GHCtime/looc/buil
+</span></span></code></pre></div><p>​	config.log说明</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>configure:8372: checking for isl 0.15 or later
+</span></span><span style="display:flex;"><span>configure:8385: gcc -o conftest -g -O2  -I/home/hiropoi/Desktop/GHCtime/looc//cross-tools/include -I/home/hiropoi/Desktop/GHCtime/looc//cross-tools/include -I/home/hiropoi/Desktop/GHCtime/looc//cross-tools/include   -Wl,-rpath,/home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib  -lisl -L/home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib -L/home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib -L/home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib -lmpc -lmpfr -lgmp conftest.c  -lisl -lgmp &gt;&amp;5
+</span></span><span style="display:flex;"><span>/bin/ld: /home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib/libisl.a(isl_options.o): relocation R_X86_64_32 against `.rodata.str1.1&#39; can not be used when making a PIE object; recompile with -fPIE
+</span></span><span style="display:flex;"><span>/bin/ld: /home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib/libisl.a(isl_version.o): relocation R_X86_64_32 against `.rodata.str1.1&#39; can not be used when making a PIE object; recompile with -fPIE
+</span></span><span style="display:flex;"><span>/bin/ld: /home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib/libisl.a(isl_arg.o): relocation R_X86_64_32 against `.rodata.str1.1&#39; can not be used when making a PIE object; recompile with -fPIE
+</span></span><span style="display:flex;"><span>/bin/ld: /home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib/libisl.a(isl_ctx.o): relocation R_X86_64_32 against `.rodata.str1.1&#39; can not be used when making a PIE object; recompile with -fPIE
+</span></span><span style="display:flex;"><span>/bin/ld: /home/hiropoi/Desktop/GHCtime/looc//cross-tools/lib/libisl.a(isl_hash.o): relocation R_X86_64_32 against `.rodata.str1.1&#39; can not be used when making a PIE object; recompile with -fPIE
+</span></span><span style="display:flex;"><span>collect2: error: ld returned 1 exit status
+</span></span></code></pre></div><h6 id="说明">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	isl已经不提供主动编译包，也无法找到安装资源，放弃该解决方案</p>
+<h4 id="0607">
+  06/07
+  <a class="heading-link" href="#0607">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="5月27日问题1-1">
+  5月27日问题1
+  <a class="heading-link" href="#5%e6%9c%8827%e6%97%a5%e9%97%ae%e9%a2%981-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="解决方案2-1">
+  解决方案2
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%882-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	为gcc8.3添加默认编译参数 <code>-mcmodel=large</code> ，使其支持大内存编译</p>
+<h5 id="问题1-10">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-10">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	在编译GHC时，无法向gcc添加默认参数</p>
+<h6 id="说明-1">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	GHC在9版本后放弃了CFLAGS，通过GHC本身的编译参数默认添加gcc参数，如果修改映射关系会导致其他编译项无法进行。、</p>
+<p>​	放弃该解决方案</p>
+<h4 id="0615">
+  06/15
+  <a class="heading-link" href="#0615">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="5月27日问题1-2">
+  5月27日问题1
+  <a class="heading-link" href="#5%e6%9c%8827%e6%97%a5%e9%97%ae%e9%a2%981-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="解决方案3">
+  解决方案3
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%883">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	龙芯官方于6月发布了全新的gcc8.3编译工具链</p>
+<h6 id="说明-2">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	测试后可以进行编译</p>
+<h5 id="问题1-11">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-11">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	编译时出现如下错误</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>loongarch64-linux-gnu-gcc: fatal error: Killed signal terminated program cc1
+</span></span><span style="display:flex;"><span>compilation terminated.
+</span></span><span style="display:flex;"><span>`loongarch64-linux-gnu-gcc&#39; failed in phase `C Compiler&#39;. (Exit code: 1)
+</span></span></code></pre></div><h6 id="原因判明-3">
+  原因判明
+  <a class="heading-link" href="#%e5%8e%9f%e5%9b%a0%e5%88%a4%e6%98%8e-3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	内存不足，调大内存</p>
+<h6 id="说明-3">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	目前已经拨给虚拟机12个内存，再多拨会引发编译机win10系统崩溃</p>
+<p>​	购买了16G内存条，正在邮寄</p>
+<h4 id="0619">
+  06/19
+  <a class="heading-link" href="#0619">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="6月15日问题1">
+  6月15日问题1
+  <a class="heading-link" href="#6%e6%9c%8815%e6%97%a5%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="解决方案-2">
+  解决方案
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	多拨内存确实有效，16G可以完成编译</p>
+<h5 id="问题1-12">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-12">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	安装到龙芯环境时出现如下错误</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>Saved <span style="font-weight:bold">package</span> config file is corrupt. Re-run the <span style="">&#39;</span>configure<span style="">&#39;</span> command.
+</span></span></code></pre></div><h4 id="0622">
+  06/22
+  <a class="heading-link" href="#0622">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="0619问题1">
+  06/19问题1
+  <a class="heading-link" href="#0619%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="说明-4">
+  说明
+  <a class="heading-link" href="#%e8%af%b4%e6%98%8e-4">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	虽然未能完全跑完安装流程，但ghc确实安装到了测试环境</p>
+<h5 id="问题1-13">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-13">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	GHC运行时出现so文件找不到的问题</p>
+<h6 id="解决方案-3">
+  解决方案
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88-3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	修正/etc/ld.so.conf，加入各种链接库</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>include ld.so.conf.d/*.conf
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/haskeline/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/compiler/stage2/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/process/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/hpc/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/ghci/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/ghc-heap/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/ghc-boot/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/binary/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/exceptions/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/stm/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/mtl/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/transformers/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/directory/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/unix/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/time/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/containers/containers/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/bytestring/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/template-haskell/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/pretty/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/ghc-boot-th/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/filepath/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/deepseq/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/base/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/array/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/ghc-bignum/dist-install/build/
+</span></span><span style="display:flex;"><span>/home/loongson/ghc1/ghc-9.5.20220430/libraries/ghc-prim/dist-install/build/
+</span></span></code></pre></div><h4 id="0625">
+  06/25
+  <a class="heading-link" href="#0625">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="记录1-2">
+  记录1
+  <a class="heading-link" href="#%e8%ae%b0%e5%bd%951-2">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	GHC的安装确实已经成功，输入ghc -v可以看到ghc的版本</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Glasgow Haskell Compiler, Version 9.5.20220430, stage 2 booted by GHC version 8.10.7
+</span></span><span style="display:flex;"><span>*** Deleting temp files:
+</span></span><span style="display:flex;"><span>Deleting: 
+</span></span><span style="display:flex;"><span>*** Deleting temp dirs:
+</span></span><span style="display:flex;"><span>Deleting: 
+</span></span><span style="display:flex;"><span>ghc: no input files
+</span></span><span style="display:flex;"><span>Usage: For basic information, try the `--help&#39; option.
+</span></span></code></pre></div><p>​	可以认为我们确实完成GHC9.5的移植</p>
+<h5 id="问题1-14">
+  问题1
+  <a class="heading-link" href="#%e9%97%ae%e9%a2%981-14">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	GHC无法编译文件、GHCi无法启动</p>
+<h4 id="0627">
+  06/27
+  <a class="heading-link" href="#0627">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="6月19日问题1">
+  6月19日问题1
+  <a class="heading-link" href="#6%e6%9c%8819%e6%97%a5%e9%97%ae%e9%a2%981">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h6 id="原因究明">
+  原因究明
+  <a class="heading-link" href="#%e5%8e%9f%e5%9b%a0%e7%a9%b6%e6%98%8e">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	GHC9.3及以上在使用交叉编译make install时会依赖编译机的stage2环境，否则编译在特定位置无法通过，之后的GHC包也无法加载</p>
+<p>​	输入ghc-pkg list不会出现依赖包列表</p>
+<h6 id="解决方案-4">
+  解决方案
+  <a class="heading-link" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88-4">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	在本机环境执行install，之后找到 usr/local/lib/ghc-9.5.20220430目录，将该目录全部移动至虚拟机</p>
+<h3 id="成果总结-1">
+  成果总结
+  <a class="heading-link" href="#%e6%88%90%e6%9e%9c%e6%80%bb%e7%bb%93-1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>​	经过两个月左右的编译，我们成功将GHC移植到了loongarch64平台上</p>
+<p>​	调优的步骤正在进行，详情请参照同文件夹下的GHC调优日志</p>
+<h4 id="最终效果">
+  最终效果
+  <a class="heading-link" href="#%e6%9c%80%e7%bb%88%e6%95%88%e6%9e%9c">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="ghc文件编译">
+  GHC文件编译
+  <a class="heading-link" href="#ghc%e6%96%87%e4%bb%b6%e7%bc%96%e8%af%91">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<h5 id="ghci交互式编译环境">
+  GHCi交互式编译环境
+  <a class="heading-link" href="#ghci%e4%ba%a4%e4%ba%92%e5%bc%8f%e7%bc%96%e8%af%91%e7%8e%af%e5%a2%83">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+
+        </div>
+        
+      </div>
+
+
+      <footer>
+        
+
+
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "nothing" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2022
+     Hiropoi 
+    ·
+    
+    Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.236049395dc3682fb2719640872958e12f1f24067bb09c327b233e6290c7edac.js" integrity="sha256-I2BJOV3DaC&#43;ycZZAhylY4S8fJAZ7sJwyeyM&#43;YpDH7aw="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

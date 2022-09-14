@@ -2,14 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://heropoi.github.io/authors/</loc>
+    <loc>https://heropoi.github.io/friend/</loc>
+    <lastmod>2022-09-14T10:33:19+08:00</lastmod>
   </url><url>
-    <loc>http://heropoi.github.io/categories/</loc>
+    <loc>https://heropoi.github.io/about/</loc>
+    <lastmod>2022-09-13T11:04:07+08:00</lastmod>
   </url><url>
-    <loc>http://heropoi.github.io/series/</loc>
+    <loc>https://heropoi.github.io/posts/helloc/</loc>
+    <lastmod>2022-08-12T09:31:25+08:00</lastmod>
   </url><url>
-    <loc>http://heropoi.github.io/</loc>
+    <loc>https://heropoi.github.io/tags/markdown/</loc>
+    <lastmod>2022-08-12T09:31:25+08:00</lastmod>
   </url><url>
-    <loc>http://heropoi.github.io/tags/</loc>
+    <loc>https://heropoi.github.io/posts/</loc>
+    <lastmod>2022-08-12T09:31:25+08:00</lastmod>
+  </url><url>
+    <loc>https://heropoi.github.io/</loc>
+    <lastmod>2022-08-12T09:31:25+08:00</lastmod>
+  </url><url>
+    <loc>https://heropoi.github.io/tags/</loc>
+    <lastmod>2022-08-12T09:31:25+08:00</lastmod>
+  </url><url>
+    <loc>https://heropoi.github.io/posts/hello-copy/</loc>
+    <lastmod>2022-07-10T09:31:25+08:00</lastmod>
+  </url><url>
+    <loc>https://heropoi.github.io/authors/</loc>
+  </url><url>
+    <loc>https://heropoi.github.io/categories/</loc>
+  </url><url>
+    <loc>https://heropoi.github.io/series/</loc>
   </url>
 </urlset>

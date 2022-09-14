@@ -2,9 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Site of Hiropoi</title>
-    <link>http://heropoi.github.io/</link>
+    <link>https://heropoi.github.io/</link>
     <description>Recent content on Site of Hiropoi</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="http://heropoi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Fri, 12 Aug 2022 09:31:25 +0800</lastBuildDate><atom:link href="https://heropoi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>友情链接</title>
+      <link>https://heropoi.github.io/friend/</link>
+      <pubDate>Wed, 14 Sep 2022 10:33:19 +0800</pubDate>
+      
+      <guid>https://heropoi.github.io/friend/</guid>
+      <description>Murphy
+Xiaobang Shi</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://heropoi.github.io/about/</link>
+      <pubDate>Tue, 13 Sep 2022 11:04:07 +0800</pubDate>
+      
+      <guid>https://heropoi.github.io/about/</guid>
+      <description> AAAAA Link to heading </description>
+    </item>
+    
+    <item>
+      <title>DLLL队GHC移植记录</title>
+      <link>https://heropoi.github.io/posts/helloc/</link>
+      <pubDate>Fri, 12 Aug 2022 09:31:25 +0800</pubDate>
+      
+      <guid>https://heropoi.github.io/posts/helloc/</guid>
+      <description>编译环节 Link to heading 04/23 Link to heading 记录1 Link to heading ​	龙芯环境在Autoconf中的标识为
+​	loongarch64-unknown-linux-gnu
+记录2 Link to heading ​	更新源码目录下的config.guess 和 config.sub 文件
+sudo wget -O /usr/share/misc/config.sub &amp;#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD&amp;#34; sudo wget -O /usr/share/misc/config.guess &amp;#34;git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD&amp;#34; libtoolize -f -i -c 问题1 Link to heading ​	修改如果直接使用configure命令报错：
+​	Unknown cpu loongarch64
+​	则需要在ghc/m4/ghc_convert_cpu.m4中加入
+loongarch64*) $2=&amp;#34;loongarch64&amp;#34; ;; ​	再执行./boot
+问题2 Link to heading ​	未知架构报错：
+​	Unknown arch loongarch64
+​	在fptools_set_haskell_platform_vars.m4下加入
+loongarch64) test -z &amp;#34;[$]2&amp;#34; || eval &amp;#34;[$]2=ArchUnknown&amp;#34; ;; ​	再执行.</description>
+    </item>
+    
+    <item>
+      <title>Hello World</title>
+      <link>https://heropoi.github.io/posts/hello-copy/</link>
+      <pubDate>Sun, 10 Jul 2022 09:31:25 +0800</pubDate>
+      
+      <guid>https://heropoi.github.io/posts/hello-copy/</guid>
+      <description> Fuck wjm Link to heading </description>
+    </item>
+    
   </channel>
 </rss>
