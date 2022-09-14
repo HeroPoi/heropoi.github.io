@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Markdown on Site of Hiropoi</title>
-    <link>https://heropoi.github.io/tags/markdown/</link>
+    <link>http://heropoi.github.io/tags/markdown/</link>
     <description>Recent content in Markdown on Site of Hiropoi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Aug 2022 09:31:25 +0800</lastBuildDate><atom:link href="https://heropoi.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Aug 2022 09:31:25 +0800</lastBuildDate><atom:link href="http://heropoi.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DLLL队GHC移植记录</title>
-      <link>https://heropoi.github.io/posts/helloc/</link>
+      <link>http://heropoi.github.io/posts/helloc/</link>
       <pubDate>Fri, 12 Aug 2022 09:31:25 +0800</pubDate>
       
-      <guid>https://heropoi.github.io/posts/helloc/</guid>
+      <guid>http://heropoi.github.io/posts/helloc/</guid>
       <description>编译环节 Link to heading 04/23 Link to heading 记录1 Link to heading ​	龙芯环境在Autoconf中的标识为
 ​	loongarch64-unknown-linux-gnu
 记录2 Link to heading ​	更新源码目录下的config.guess 和 config.sub 文件
@@ -28,10 +28,10 @@ loongarch64) test -z &amp;#34;[$]2&amp;#34; || eval &amp;#34;[$]2=ArchUnknown&am
     
     <item>
       <title>Hello World</title>
-      <link>https://heropoi.github.io/posts/hello-copy/</link>
+      <link>http://heropoi.github.io/posts/hello-copy/</link>
       <pubDate>Sun, 10 Jul 2022 09:31:25 +0800</pubDate>
       
-      <guid>https://heropoi.github.io/posts/hello-copy/</guid>
+      <guid>http://heropoi.github.io/posts/hello-copy/</guid>
       <description>大家好，这里是Hiropoi，一名来自中国某知名轨道交通相关学校的普通大学生。
 欢迎来到我的博客。</description>
     </item>
