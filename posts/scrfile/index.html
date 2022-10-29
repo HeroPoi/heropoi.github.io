@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+  Python 爬取《经济学人》文章 · Site of Hiropoi
+</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Hiropoi">
+<meta name="description" content="102238867_p0_master1200.jpg">
+<meta name="keywords" content="blog,developer,personal">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python 爬取《经济学人》文章"/>
+<meta name="twitter:description" content="102238867_p0_master1200.jpg"/>
+
+<meta property="og:title" content="Python 爬取《经济学人》文章" />
+<meta property="og:description" content="102238867_p0_master1200.jpg" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://heropoi.github.io/posts/scrfile/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-12T09:31:25+08:00" />
+<meta property="article:modified_time" content="2022-09-12T09:31:25+08:00" />
+
+
+
+
+
+<link rel="canonical" href="http://heropoi.github.io/posts/scrfile/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.c4d7e93a158eda5a65b3df343745d2092a0a1e2170feeec909b8a89443903c6a.css" integrity="sha256-xNfpOhWO2lpls980N0XSCSoKHiFw/u7JCbiolEOQPGo=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.dd27b6b324cd8326d45b9fb1c81c22358e58a718101a56b3730f2c07ac1f20d8.css" integrity="sha256-3Se2syTNgybUW5&#43;xyBwiNY5YpxgQGlazcw8sB6wfINg=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/icon.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<meta name="generator" content="Hugo 0.102.3" />
+
+
+
+
+
+  </head>
+
+
+
+
+
+
+<style>
+  .colorscheme-light{
+    background-image: url(/images/dayc.jpg);
+    background-attachment: fixed;
+  }
+  .colorscheme-dark{
+    background-image: url(/images/nights.jpg);
+    background-attachment: fixed;
+  }
+  .colorscheme-dark>h{
+    color: black;
+  }
+</style>
+
+<body class="preload-transitions colorscheme-auto">
+  
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Site of Hiropoi
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">📕个人文章</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于我</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/friend/">友情链接</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <style>
+      h{
+        color: black;
+      }
+      .zoomImage{
+        width:100%;
+        height:0;
+        padding-bottom: 40%;
+        overflow:hidden;
+        background-position: center center;
+        background-repeat: no-repeat;
+        -webkit-background-size:cover;
+        -moz-background-size:cover;
+        border-radius:5px;
+        background-size:cover;
+    }
+  </style>
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://heropoi.github.io/posts/scrfile/">
+              Python 爬取《经济学人》文章
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2022-09-12T09:31:25&#43;08:00">
+                September 12, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/markdown/">Markdown</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div style="width:100%;background-color:white;background: rgba(255,255,255,0.5);border-radius:5px">
+        
+        <div class="zoomImage" style="background-image:url(/images/102238867_p0_master1200.jpg)"></div>
+        <div style="padding: 5%;color:black">
+          <h3 id="1-事前准备">
+  1 事前准备
+  <a class="heading-link" href="#1-%e4%ba%8b%e5%89%8d%e5%87%86%e5%a4%87">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="11-爬取网址">
+  1.1 爬取网址
+  <a class="heading-link" href="#11-%e7%88%ac%e5%8f%96%e7%bd%91%e5%9d%80">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>​	《经济学人》官网：https://www.economist.com/ （需要梯子）</p>
+<h4 id="12-所需环境">
+  1.2 所需环境
+  <a class="heading-link" href="#12-%e6%89%80%e9%9c%80%e7%8e%af%e5%a2%83">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>python：3.8</li>
+<li>urllib3：1.25.11（1.26修改了代理策略，不能挂梯子，所以使用1.25）</li>
+<li>requests：2.28.1</li>
+</ul>
+<p>​	其余交给pip即可</p>
+<h3 id="2-可行性分析">
+  2 可行性分析
+  <a class="heading-link" href="#2-%e5%8f%af%e8%a1%8c%e6%80%a7%e5%88%86%e6%9e%90">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="21-网页结构主页">
+  2.1 网页结构（主页）
+  <a class="heading-link" href="#21-%e7%bd%91%e9%a1%b5%e7%bb%93%e6%9e%84%e4%b8%bb%e9%a1%b5">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>​	既然要爬就多爬一点，所以选择了从主页分类下手</p>
+<p>​	例如business（商业）分类总共905页（截止至2022/10/27）</p>
+<p>​	<strong>url 结构：[类型]?page=[页码]</strong></p>
+<p>​	页面源代码下存在这样的以如下结构包裹的json：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;……&lt;/script&gt;
+</span></span></code></pre></div><p>​	<strong>json结构：</strong></p>
+<p>​	<img src="/images/image-20221027163306251.png" alt=""></p>
+<p>​	经过分解发现，该json的props-&gt;pageProps-&gt;content-&gt;hasPart-&gt;parts为我们需要的文章链接数组</p>
+<p>​	以下是其中数据的结构：</p>
+<p><img src="/images/image-20221027164016304.png" alt="image-20221027164016304"></p>
+<p>​	数据结构的具体含义如下：</p>
+<ul>
+<li>文章正文链接 ：url-&gt;canonical</li>
+<li>文章标题：headline</li>
+<li>文章所属专栏：subheadline</li>
+<li>文章概括：description</li>
+<li>刊行日期：datepublished</li>
+</ul>
+<p>​	还有图片url啥的，不过这个丢到正文里就好</p>
+<h4 id="22-网页结构正文">
+  2.2 网页结构（正文）
+  <a class="heading-link" href="#22-%e7%bd%91%e9%a1%b5%e7%bb%93%e6%9e%84%e6%ad%a3%e6%96%87">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>​	虽然经济学人官网有会员阅读限制，但竟然先加载了全文再限制阅读真是帮大忙了</p>
+<p>​	而且竟然和之前相同，也是由如下这个结构包裹的</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;……&lt;/script&gt;
+</span></span></code></pre></div><p><img src="/images/image-20221027170858068.png" alt="image-20221027170858068"></p>
+<p>​	所需的数据似曾相识地集中在props-&gt;pageProps-&gt;content里</p>
+<p>​	从中分解出的可用信息大概如下：</p>
+<ul>
+<li>文章格式数组：text</li>
+<li>正文文本内容：bodyText</li>
+</ul>
+<p>​	其实这两个都能获取正文，但用bodyText好像更简单欸（笑）</p>
+<hr>
+<p><strong>P.S.</strong></p>
+<p>​	虽然本文中不会用到，但实际上text的功能性更强，可以定位图片位置，甚至直接生成html拿来建站……在此仅记录数据结构</p>
+<p>​	text为如下两种结构构成的数组：</p>
+<p>​	<strong>结构A（嵌套式标签）</strong></p>
+<ul>
+<li>type：结构类型</li>
+<li>name：标签名称</li>
+<li>children：子结构，内部由文本和其他的嵌套标签组成</li>
+</ul>
+<p>​	<strong>结构B（文本）</strong></p>
+<ul>
+<li>type：结构类型</li>
+<li>data：正文</li>
+</ul>
+<hr>
+<h3 id="3-程序设计">
+  3 程序设计
+  <a class="heading-link" href="#3-%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="31-downloadhtml-获取网页源码">
+  3.1 downloadHtml 获取网页源码
+  <a class="heading-link" href="#31-downloadhtml-%e8%8e%b7%e5%8f%96%e7%bd%91%e9%a1%b5%e6%ba%90%e7%a0%81">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="311-源码">
+  3.1.1 源码
+  <a class="heading-link" href="#311-%e6%ba%90%e7%a0%81">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold">def</span> downloadHtml(url):
+</span></span><span style="display:flex;"><span>    cookie = {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    headers = {
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;User-Agent&#34;</span>: <span style="font-style:italic">&#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    res = requests.get(url=url, headers=headers, timeout=40, cookies=cookie)
+</span></span><span style="display:flex;"><span>    res.encoding = <span style="font-style:italic">&#34;utf-8&#34;</span>
+</span></span><span style="display:flex;"><span>    res.close()
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">return</span> res.text
+</span></span></code></pre></div><h5 id="312-原理详解">
+  3.1.2 原理详解
+  <a class="heading-link" href="#312-%e5%8e%9f%e7%90%86%e8%af%a6%e8%a7%a3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	简单地使用request获取源码，这个不太需要解释，实际上这一部分应该放在一开始就写好，然后爬下源码先看看结构</p>
+<p>​	如果是动态加载而且找不到数据源的话，就要用selenium等加载好再获取了</p>
+<p>​	cookie需要根据实际所需的cookie设置，这次用不上</p>
+<p>​	header是请求头，具体设定看这篇文章：<a href="https://blog.csdn.net/xmxt668/article/details/89461183"> HTTP请求头格式和响应格式</a></p>
+<p>​	解码格式可以先试试GBK之类，如果报错或者出现乱码的话再换别的，这里使用的utf-8（其实大多数utf-8都行）</p>
+<h4 id="32-analysis-网页源码解析">
+  3.2 analysis 网页源码解析
+  <a class="heading-link" href="#32-analysis-%e7%bd%91%e9%a1%b5%e6%ba%90%e7%a0%81%e8%a7%a3%e6%9e%90">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="321-源码">
+  3.2.1 源码
+  <a class="heading-link" href="#321-%e6%ba%90%e7%a0%81">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold">def</span> analysis(html):
+</span></span><span style="display:flex;"><span>    text_pattern = re.compile(<span style="font-style:italic">&#39;&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;.*?&lt;/script&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>    tag_box = text_pattern.findall(html)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">return</span> tag_box
+</span></span></code></pre></div><h5 id="322-原理详解">
+  3.2.2 原理详解
+  <a class="heading-link" href="#322-%e5%8e%9f%e7%90%86%e8%af%a6%e8%a7%a3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	通过正则表达式分解html源码，如 <strong>2.1</strong>、<strong>2.2</strong> 所说，不论正文和索引，实际数据都是从这个script标签出来的</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="font-weight:bold">script</span> id=<span style="font-style:italic">&#34;__NEXT_DATA__&#34;</span> type=<span style="font-style:italic">&#34;application/json&#34;</span>&gt;<span style="">……</span>&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span></code></pre></div><p>​	如上的正则表达式中，<strong>.*?</strong> 这个部分中，<strong>.</strong>* 指的是无论内部有多少字符都全部接收，<strong>?</strong> 则是指尽可能短地进行匹配</p>
+<p>​	如果不加？的话，由于页面还有其他的**<!-- raw HTML omitted -->**标签，会因为默认匹配最长，也就是直接拉到最后一个结束标签上</p>
+<h4 id="33-main-主流程">
+  3.3 main 主流程
+  <a class="heading-link" href="#33-main-%e4%b8%bb%e6%b5%81%e7%a8%8b">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="331-源码">
+  3.3.1 源码
+  <a class="heading-link" href="#331-%e6%ba%90%e7%a0%81">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold">def</span> main():
+</span></span><span style="display:flex;"><span>    requests.session().keep_alive = <span style="font-weight:bold">False</span>
+</span></span><span style="display:flex;"><span>    url_basic=<span style="font-style:italic">&#34;https://www.economist.com/business&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-style:italic"># 目录获取</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">for</span> x <span style="font-weight:bold">in</span> range(1,906):
+</span></span><span style="display:flex;"><span>        print(x)
+</span></span><span style="display:flex;"><span>        article_urls = []
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">while</span> 1:
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>                tag_box=analysis(downloadHtml(url_basic+<span style="font-style:italic">&#39;?page=&#39;</span>+str(x)))
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>                time.sleep(3)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">for</span> tag_type <span style="font-weight:bold">in</span> tag_box:
+</span></span><span style="display:flex;"><span>            tag_type=tag_type.replace(
+</span></span><span style="display:flex;"><span>                <span style="font-style:italic">&#39;&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;&#39;</span>,<span style="font-style:italic">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>            ).replace(<span style="font-style:italic">&#39;&lt;/script&gt;&#39;</span>,<span style="font-style:italic">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>            print(tag_type)
+</span></span><span style="display:flex;"><span>            tag_json=json.loads(tag_type)
+</span></span><span style="display:flex;"><span>            urls=tag_json[<span style="font-style:italic">&#39;props&#39;</span>][<span style="font-style:italic">&#39;pageProps&#39;</span>][<span style="font-style:italic">&#39;content&#39;</span>][0][<span style="font-style:italic">&#39;hasPart&#39;</span>][<span style="font-style:italic">&#39;parts&#39;</span>]
+</span></span><span style="display:flex;"><span>            <span style="font-style:italic"># print(urls)</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> urls:
+</span></span><span style="display:flex;"><span>                url=i[<span style="font-style:italic">&#39;url&#39;</span>][<span style="font-style:italic">&#39;canonical&#39;</span>]
+</span></span><span style="display:flex;"><span>                print(url)
+</span></span><span style="display:flex;"><span>                article_urls.append(url)
+</span></span><span style="display:flex;"><span>		<span style="font-style:italic"># 正文获取</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">for</span> url_c <span style="font-weight:bold">in</span> article_urls:
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">while</span> 1:
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>                    tag_box = analysis(downloadHtml(url_c))
+</span></span><span style="display:flex;"><span>                    <span style="font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>                    time.sleep(5)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">for</span> tag_type <span style="font-weight:bold">in</span> tag_box:
+</span></span><span style="display:flex;"><span>                tag_type = tag_type.replace(
+</span></span><span style="display:flex;"><span>                    <span style="font-style:italic">&#39;&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;&#39;</span>, <span style="font-style:italic">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>                ).replace(
+</span></span><span style="display:flex;"><span>                    <span style="font-style:italic">&#39;&lt;/script&gt;&#39;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="font-style:italic">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>                tag_json = json.loads(tag_type)
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>                    urls = tag_json[<span style="font-style:italic">&#39;props&#39;</span>][<span style="font-style:italic">&#39;pageProps&#39;</span>][<span style="font-style:italic">&#39;content&#39;</span>][0]
+</span></span><span style="display:flex;"><span>                    headline = urls[<span style="font-style:italic">&#39;headline&#39;</span>]
+</span></span><span style="display:flex;"><span>                    description = urls[<span style="font-style:italic">&#39;description&#39;</span>]
+</span></span><span style="display:flex;"><span>                    datePublished = urls[<span style="font-style:italic">&#39;datePublished&#39;</span>]
+</span></span><span style="display:flex;"><span>                    bodyText = urls[<span style="font-style:italic">&#39;bodyText&#39;</span>]
+</span></span><span style="display:flex;"><span>                    <span style="font-style:italic"># 文件生成</span>
+</span></span><span style="display:flex;"><span>                    file = open(<span style="font-style:italic">&#39;Economy/&#39;</span> 
+</span></span><span style="display:flex;"><span>                                + url_c.replace(url_basic + <span style="font-style:italic">&#39;/&#39;</span>, <span style="font-style:italic">&#39;&#39;</span>).replace(<span style="font-style:italic">&#39;/&#39;</span>, <span style="font-style:italic">&#39;.&#39;</span>) + <span style="font-style:italic">&#39;.md&#39;</span>, <span style="font-style:italic">&#39;w&#39;</span>,
+</span></span><span style="display:flex;"><span>                                encoding=<span style="font-style:italic">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>                    
+</span></span><span style="display:flex;"><span>                    file.write(<span style="font-style:italic">&#39;##&#39;</span> + headline + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(<span style="font-style:italic">&#39;######&#39;</span> + description + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(<span style="font-style:italic">&#39;######&#39;</span> + datePublished + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(bodyText + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.close
+</span></span><span style="display:flex;"><span>                    print(headline)
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>                    print(<span style="font-style:italic">&#39;Did not fit,abandon&#39;</span>)
+</span></span></code></pre></div><h5 id="332-原理详解">
+  3.3.2 原理详解
+  <a class="heading-link" href="#332-%e5%8e%9f%e7%90%86%e8%af%a6%e8%a7%a3">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>​	首先需要将session设置为不保留，防止被服务器墙掉</p>
+<p>​	<code>requests.session().keep_alive = False</code></p>
+<p>​	接下来的主流程大致可以分为3部分：<strong>目录获取、正文获取、生成文件</strong></p>
+<h6 id="3321-目录获取">
+  3.3.2.1 目录获取
+  <a class="heading-link" href="#3321-%e7%9b%ae%e5%bd%95%e8%8e%b7%e5%8f%96">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	首先需要获取到页面源码：</p>
+<p>​	<code>tag_box=analysis(downloadHtml(url_basic+'?page='+str(x)))</code></p>
+<p>​	url_basic保存的是当前分类的链接，想爬别的类别只需要替换掉主网址后的链接即可</p>
+<p>​	接下来通过 <code>replace</code> 将html标签部分拆掉让它变成json，用<code>json.loads</code>将其变成python词典</p>
+<p>​	再根据之前的json结构获取到链接并保留到<code>article_urls</code>中备用</p>
+<hr>
+<p><strong>P.S.</strong></p>
+<p>​	其实在这里也能获取到标题、描述、专栏名以及发行时间，如果对正文没需求只要链接到这一步就OK</p>
+<hr>
+<p>​	实际上的流程非常简单，但第一版的代码并不是很好用，经常会被服务器强行关闭远程连接</p>
+<p>​	为了解决这个问题，一开始加入了try，一旦出错就重试，但是有时候只重试一次也不够，</p>
+<p>​	所以加入了while，直到没有问题再跳出循环，以防万一错误处理还加了延时</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold">while</span> 1:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>		tag_box=analysis(downloadHtml(url_basic+<span style="font-style:italic">&#39;?page=&#39;</span>+str(x)))
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>        time.sleep(3)
+</span></span></code></pre></div><h6 id="3322-正文获取">
+  3.3.2.2 正文获取
+  <a class="heading-link" href="#3322-%e6%ad%a3%e6%96%87%e8%8e%b7%e5%8f%96">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	由于主页和正文的代码结构高度相似，所以获取源码都是一样的，也加入了连接时的错误处理</p>
+<p>​	但测试时出现了问题，经济学人在2020年之前会提供特刊，特刊是特殊的目录，并没有正文结构，所以在获取正文后会报错</p>
+<p>​	不过特刊的文章都在本身目录中包含了，因此加入了错误处理，只要出错就跳过这个链接</p>
+<h6 id="3323-文件生成">
+  3.3.2.3 文件生成
+  <a class="heading-link" href="#3323-%e6%96%87%e4%bb%b6%e7%94%9f%e6%88%90">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h6>
+<p>​	这里为了方便阅读，就选择生成markdown文档了，对md格式有疑问的看这个链接就好</p>
+<p>​	<a href="https://www.appinn.com/markdown/">Markdown 语法说明(简体中文版) (appinn.com)</a></p>
+<p>​	特别注意，文件名称不能直接使用标题名称（因为存在一些诸如？的特殊符号）</p>
+<p>​	所以选取了从链接里直接筛出文件名，替换掉网页的基础链接和 <code>/</code>即可</p>
+<hr>
+<p><strong>P.S.</strong></p>
+<p>​	pycharm、vscode和Typora等MD编辑器的语法处理有所不同</p>
+<p>​	Typora的语法格式与文本之间需要空格分隔，但pycharm等则不需要</p>
+<p>​	以标题级别举例，###后直接连接正文会有如下的不同：</p>
+<p><img src="/images/image-20221028134158125.png" alt="image-20221028134158125"></p>
+<p><img src="/images/image-20221028134344835.png" alt="image-20221028134344835"></p>
+<p>​	所以尽量在语法格式后加上空格</p>
+<hr>
+<h3 id="4-完整源码">
+  4 完整源码
+  <a class="heading-link" href="#4-%e5%ae%8c%e6%95%b4%e6%ba%90%e7%a0%81">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold">import</span> <span style="font-weight:bold">requests</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">import</span> <span style="font-weight:bold">re</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">import</span> <span style="font-weight:bold">json</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">import</span> <span style="font-weight:bold">time</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">def</span> downloadHtml(url):
+</span></span><span style="display:flex;"><span>    cookie = {
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;v&#34;</span>: <span style="font-style:italic">&#34;1649838500&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;vn&#34;</span>: <span style="font-style:italic">&#34;1S&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;Hm_lvt_ae5edc2bc4fc71370807f6187f0a2dd0&#34;</span>: <span style="font-style:italic">&#34;1649766000&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;visited_serachKw&#34;</span>: <span style="font-style:italic">&#34;3060&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;Adshow&#34;</span>: <span style="font-style:italic">&#34;2&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;Hm_lpvt_ae5edc2bc4fc71370807f6187f0a2dd0&#34;</span>: <span style="font-style:italic">&#34;1665768000&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;questionnaire_pv&#34;</span>: <span style="font-style:italic">&#34;1649766000&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;visited_subcateId&#34;</span>: <span style="font-style:italic">&#34;3 | 13&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;visited_subcateProId&#34;</span>: <span style="font-style:italic">&#34;3-0 | 13-0&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    headers = {
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">&#34;User-Agent&#34;</span>: <span style="font-style:italic">&#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    res = requests.get(url=url, headers=headers, timeout=40, cookies=cookie)
+</span></span><span style="display:flex;"><span>    res.encoding = <span style="font-style:italic">&#34;utf-8&#34;</span>
+</span></span><span style="display:flex;"><span>    res.close()
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">return</span> res.text
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">def</span> analysis(html):
+</span></span><span style="display:flex;"><span>    text_pattern = re.compile(<span style="font-style:italic">&#39;&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;.*?&lt;/script&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>    tag_box = text_pattern.findall(html)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">return</span> tag_box
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">def</span> main():
+</span></span><span style="display:flex;"><span>    requests.session().keep_alive = <span style="font-weight:bold">False</span>
+</span></span><span style="display:flex;"><span>    url_basic=<span style="font-style:italic">&#34;https://www.economist.com/business&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">for</span> x <span style="font-weight:bold">in</span> range(255,906):
+</span></span><span style="display:flex;"><span>        print(x)
+</span></span><span style="display:flex;"><span>        article_urls = []
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">while</span> 1:
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>                tag_box=analysis(downloadHtml(url_basic+<span style="font-style:italic">&#39;?page=&#39;</span>+str(x)))
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>                time.sleep(3)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">for</span> tag_type <span style="font-weight:bold">in</span> tag_box:
+</span></span><span style="display:flex;"><span>            tag_type=tag_type.replace(<span style="font-style:italic">&#39;&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;&#39;</span>,<span style="font-style:italic">&#39;&#39;</span>).replace(<span style="font-style:italic">&#39;&lt;/script&gt;&#39;</span>,<span style="font-style:italic">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>            print(tag_type)
+</span></span><span style="display:flex;"><span>            tag_json=json.loads(tag_type)
+</span></span><span style="display:flex;"><span>            urls=tag_json[<span style="font-style:italic">&#39;props&#39;</span>][<span style="font-style:italic">&#39;pageProps&#39;</span>][<span style="font-style:italic">&#39;content&#39;</span>][0][<span style="font-style:italic">&#39;hasPart&#39;</span>][<span style="font-style:italic">&#39;parts&#39;</span>]
+</span></span><span style="display:flex;"><span>            <span style="font-style:italic"># print(urls)</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> urls:
+</span></span><span style="display:flex;"><span>                url=i[<span style="font-style:italic">&#39;url&#39;</span>][<span style="font-style:italic">&#39;canonical&#39;</span>]
+</span></span><span style="display:flex;"><span>                print(url)
+</span></span><span style="display:flex;"><span>                article_urls.append(url)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">for</span> url_c <span style="font-weight:bold">in</span> article_urls:
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">while</span> 1:
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>                    tag_box = analysis(downloadHtml(url_c))
+</span></span><span style="display:flex;"><span>                    <span style="font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>                    time.sleep(5)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">for</span> tag_type <span style="font-weight:bold">in</span> tag_box:
+</span></span><span style="display:flex;"><span>                tag_type = tag_type.replace(<span style="font-style:italic">&#39;&lt;script id=&#34;__NEXT_DATA__&#34; type=&#34;application/json&#34;&gt;&#39;</span>, <span style="font-style:italic">&#39;&#39;</span>).replace(
+</span></span><span style="display:flex;"><span>                    <span style="font-style:italic">&#39;&lt;/script&gt;&#39;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="font-style:italic">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>                tag_json = json.loads(tag_type)
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>                    urls = tag_json[<span style="font-style:italic">&#39;props&#39;</span>][<span style="font-style:italic">&#39;pageProps&#39;</span>][<span style="font-style:italic">&#39;content&#39;</span>][0]
+</span></span><span style="display:flex;"><span>                    headline = urls[<span style="font-style:italic">&#39;headline&#39;</span>]
+</span></span><span style="display:flex;"><span>                    description = urls[<span style="font-style:italic">&#39;description&#39;</span>]
+</span></span><span style="display:flex;"><span>                    datePublished = urls[<span style="font-style:italic">&#39;datePublished&#39;</span>]
+</span></span><span style="display:flex;"><span>                    bodyText = urls[<span style="font-style:italic">&#39;bodyText&#39;</span>]
+</span></span><span style="display:flex;"><span>                    file = open(<span style="font-style:italic">&#39;Economy/&#39;</span> + url_c.replace(url_basic + <span style="font-style:italic">&#39;/&#39;</span>, <span style="font-style:italic">&#39;&#39;</span>).replace(<span style="font-style:italic">&#39;/&#39;</span>, <span style="font-style:italic">&#39;.&#39;</span>) + <span style="font-style:italic">&#39;.md&#39;</span>, <span style="font-style:italic">&#39;w&#39;</span>,
+</span></span><span style="display:flex;"><span>                                encoding=<span style="font-style:italic">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(<span style="font-style:italic">&#39;## &#39;</span> + headline + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(<span style="font-style:italic">&#39;###### &#39;</span> + description + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(<span style="font-style:italic">&#39;###### &#39;</span> + datePublished + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.write(bodyText + <span style="font-style:italic">&#39;</span><span style="font-weight:bold;font-style:italic">\n</span><span style="font-style:italic">&#39;</span>)
+</span></span><span style="display:flex;"><span>                    file.close
+</span></span><span style="display:flex;"><span>                    print(headline)
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">except</span> <span style="font-weight:bold">Exception</span> <span style="font-weight:bold">as</span> e:
+</span></span><span style="display:flex;"><span>                    print(<span style="font-style:italic">&#39;Did not fit,abandon&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">if</span> __name__ == <span style="font-style:italic">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div>
+        </div>
+        
+      </div>
+
+
+      <footer>
+        
+
+
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "nothing" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2022
+     Hiropoi 
+    ·
+    
+    Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+ 
+
+  
+
+  
+  
+  <script src="/js/coder.min.236049395dc3682fb2719640872958e12f1f24067bb09c327b233e6290c7edac.js" integrity="sha256-I2BJOV3DaC&#43;ycZZAhylY4S8fJAZ7sJwyeyM&#43;YpDH7aw="></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

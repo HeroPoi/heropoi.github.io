@@ -6,7 +6,7 @@
     <description>Recent content on Site of Hiropoi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Aug 2022 09:31:25 +0800</lastBuildDate><atom:link href="http://heropoi.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Sep 2022 09:31:25 +0800</lastBuildDate><atom:link href="http://heropoi.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>友情链接</title>
       <link>http://heropoi.github.io/friend/</link>
@@ -32,6 +32,26 @@ Christina</description>
 OCG老牌手，801入坑 ACG亚文化透明人，品味奇特，很少随波逐流 日轻读者，lk勇者测试87分 钢普拉玩家 特摄假粉——Fuck Rivice！ 绘画（草稿天才，描线智障） 手游边缘人，都接触过，都不太玩，目前在玩PCR、SZB、MRFZ、KTBL 热衷于用编程产物直接改变生活（做了自己用）。
 我们一起来改变世界吧！
 P.S. 友链申请请发送到这个邮箱</description>
+    </item>
+    
+    <item>
+      <title>Python 爬取《经济学人》文章</title>
+      <link>http://heropoi.github.io/posts/scrfile/</link>
+      <pubDate>Mon, 12 Sep 2022 09:31:25 +0800</pubDate>
+      
+      <guid>http://heropoi.github.io/posts/scrfile/</guid>
+      <description>1 事前准备 Link to heading 1.1 爬取网址 Link to heading ​	《经济学人》官网：https://www.economist.com/ （需要梯子）
+1.2 所需环境 Link to heading python：3.8 urllib3：1.25.11（1.26修改了代理策略，不能挂梯子，所以使用1.25） requests：2.28.1 ​	其余交给pip即可
+2 可行性分析 Link to heading 2.1 网页结构（主页） Link to heading ​	既然要爬就多爬一点，所以选择了从主页分类下手
+​	例如business（商业）分类总共905页（截止至2022/10/27）
+​	url 结构：[类型]?page=[页码]
+​	页面源代码下存在这样的以如下结构包裹的json：
+&amp;lt;script id=&amp;#34;__NEXT_DATA__&amp;#34; type=&amp;#34;application/json&amp;#34;&amp;gt;……&amp;lt;/script&amp;gt; ​	json结构：
+​	​	经过分解发现，该json的props-&amp;gt;pageProps-&amp;gt;content-&amp;gt;hasPart-&amp;gt;parts为我们需要的文章链接数组
+​	以下是其中数据的结构：
+​	数据结构的具体含义如下：
+文章正文链接 ：url-&amp;gt;canonical 文章标题：headline 文章所属专栏：subheadline 文章概括：description 刊行日期：datepublished ​	还有图片url啥的，不过这个丢到正文里就好
+2.2 网页结构（正文） Link to heading ​	虽然经济学人官网有会员阅读限制，但竟然先加载了全文再限制阅读真是帮大忙了</description>
     </item>
     
     <item>
